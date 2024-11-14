@@ -3,12 +3,16 @@ package numberrangesummarizer;
 import java.util.Collection;
 
 /**
- * Hello world!
- *
+ * The App class is for calling RangeSummarizer to summarize ranges of given a list of integer input.
  */
 public class App {
+
+    /**
+     * Validates the command line arguments and calls the summarizer.
+     *
+     * @param args Command line arguments
+     */
     public static void main(String[] args) {
-        System.out.println( "Hello World!" );
 
         if (args.length != 1) {
             System.err.println("Incorrect number of arguments or no input given");
@@ -19,10 +23,24 @@ public class App {
     }
 
 
+    /**
+     * Runs the range summarizer by collecting the input correctly first then
+     * summarizing the integers into ranges.
+     *
+     * @param input String of integers
+     */
     public static void runSummarizer(String input) {
-
         RangeSummarizer summarizer = new RangeSummarizer();
+
         Collection<Integer> collect = summarizer.collect(input);
 
+        System.out.println("\nCollected input as follows:");
+        System.out.println(collect.toString());
+
+        String output = summarizer.summarizeCollection(collect);
+
+        System.out.println("======================");
+        System.out.println("Final summarized range:");
+        System.out.println(output + "\n");
     }
 }

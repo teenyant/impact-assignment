@@ -4,6 +4,12 @@ import java.util.Collection;
 
 /**
  * The App class is for calling RangeSummarizer to summarize ranges of given a list of integer input.
+ *
+ * Assumptions made:
+ * - Input can be unsorted, contain negative numbers, duplicate numbers
+ * - Only integer input will be accepted otherwise throw an error
+ * - Duplicate numbers are ignored
+ * -
  */
 public class App {
 

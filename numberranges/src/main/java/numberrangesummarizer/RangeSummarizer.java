@@ -19,21 +19,26 @@ public class RangeSummarizer implements NumberRangeSummarizer {
      * @return Sorted collection of unique integers
      * @throws RuntimeException if input contains non-integer values
      */
-    public Collection<Integer> collect(String input) {
+    public final Collection<Integer> collect(String input) {
         if (input == null || input.trim().isEmpty()) {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
 
         String[] numbersString = input.split(",");
+        // TreeSet automatically sorts and removes duplicates
         Set<Integer> numberSet = new TreeSet<>();
 
         for (int i = 0; i < numbersString.length; i++) {
-            try {
-                int num = Integer.parseInt(numbersString[i].trim());
-                numberSet.add(num);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Invalid number format");
+            numbersString[i] = numbersString[i].trim();
+
+            if (numbersString[i].isEmpty()) {
+                try {
+                    int num = Integer.parseInt(numbersString[i].trim());
+                    numberSet.add(num);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException("Invalid number format");
+                }
             }
         }
 
@@ -47,7 +52,7 @@ public class RangeSummarizer implements NumberRangeSummarizer {
      * @param input Sorted Collection of unique integers
      * @return Comma-delimited string with summarized ranges
      */
-    public String summarizeCollection(Collection<Integer> input) {
+    public final String summarizeCollection(Collection<Integer> input) {
         if (input.isEmpty()) {
             return "";
         }
@@ -56,12 +61,14 @@ public class RangeSummarizer implements NumberRangeSummarizer {
 
         Iterator<Integer> itr = input.iterator();
 
+        // Start and end of current range
         int start = itr.next();
         int end = start;
 
         while (itr.hasNext()) {
             int curr = itr.next();
 
+            // Check if current number is not sequential to previous one
             if (curr != end + 1) {
                 if (start == end) {
                     output.append(start);
@@ -70,11 +77,13 @@ public class RangeSummarizer implements NumberRangeSummarizer {
                 }
                 output.append(", ");
 
+                // Start new range
                 start = curr;
             }
             end = curr;
         }
 
+        // Check last range/number
         if (start == end) {
             output.append(start);
         } else {

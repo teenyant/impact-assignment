@@ -6,7 +6,7 @@
 
 ## Requirements
 - Java version 17
-- Maven 3.9.9
+- Maven 3.9.9 with Junit 3.8.1
 
 ## Build main
 

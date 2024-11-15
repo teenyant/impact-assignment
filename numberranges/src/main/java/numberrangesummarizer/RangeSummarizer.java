@@ -1,6 +1,7 @@
 package numberrangesummarizer;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * RangeSummarizer implements the NumberRangeSummarizer interface to collect input and summarize the ranges
@@ -24,25 +25,17 @@ public class RangeSummarizer implements NumberRangeSummarizer {
             return Collections.emptyList();
         }
 
-        String[] numbersString = input.split(",");
-        // TreeSet automatically sorts and removes duplicates
-        Set<Integer> numberSet = new TreeSet<>();
-
-        for (int i = 0; i < numbersString.length; i++) {
-            numbersString[i] = numbersString[i].trim();
-
-            if (!numbersString[i].isEmpty()) {
-                try {
-                    int num = Integer.parseInt(numbersString[i].trim());
-                    numberSet.add(num);
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException("Invalid number format");
-                }
-            }
+        try {
+            return Arrays.stream(input.split(","))
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty()) // Ignore empty values
+                    .map(Integer::parseInt) // Parse valid integers
+                    .distinct() // Remove duplicates
+                    .sorted() // Sort the numbers
+                    .collect(Collectors.toList());
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("Invalid number format");
         }
-
-        return numberSet;
     }
 
     /**

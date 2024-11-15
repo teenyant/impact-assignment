@@ -190,4 +190,42 @@ public class AppTest extends TestCase {
         assertEquals(expectedOutput, output);
     }
 
+    /**
+     *  Tests handling of extra commas in the input, expecting to ignore them.
+     */
+    public void test13_ExtraCommas() {
+        String input = ",1,2,,3,4,,";
+        String expectedOutput = "1-4";
+
+        Collection<Integer> collect = summarizer.collect(input);
+        String output = summarizer.summarizeCollection(collect);
+
+        assertEquals(expectedOutput, output);
+    }
+
+    /**
+     * Tests an invalid input, expecting runtime exception.
+     */
+    public void test14_OnlyInvalid() {
+        String input = "a,b,,c,,";
+        try {
+            summarizer.collect(input);
+            fail("Expected RuntimeException was not thrown");
+        } catch (RuntimeException e) {
+            assertTrue(e.getMessage().contains("Invalid number format"));
+        }
+    }
+
+    /**
+     * Tests very large integers as input.
+     */
+    public void test15_LargeIntegers() {
+        String input = "2147483647,2147483646,2147483645";
+        String expectedOutput = "2147483645-2147483647";
+
+        Collection<Integer> collect = summarizer.collect(input);
+        String output = summarizer.summarizeCollection(collect);
+
+        assertEquals(expectedOutput, output);
+    }
 }

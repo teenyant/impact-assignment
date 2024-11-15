@@ -31,7 +31,7 @@ public class RangeSummarizer implements NumberRangeSummarizer {
         for (int i = 0; i < numbersString.length; i++) {
             numbersString[i] = numbersString[i].trim();
 
-            if (numbersString[i].isEmpty()) {
+            if (!numbersString[i].isEmpty()) {
                 try {
                     int num = Integer.parseInt(numbersString[i].trim());
                     numberSet.add(num);
